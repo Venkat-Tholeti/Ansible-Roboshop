@@ -10,6 +10,6 @@
         dest: /etc/yum.repos.d/mongo.repo
 
     - name: Install Mongodb package
-      pacakage:
+      package:
          name: mongodb-org
          state: installed
