@@ -22,7 +22,7 @@
 
     - name: Change the config file to allow remote connections
       replace:
-        path: /etc/mongod.config
+        path: /etc/mongod.conf
         regexp: '127.0.0.1'
         replace: '0.0.0.0'
    
