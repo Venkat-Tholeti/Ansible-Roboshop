@@ -1,0 +1,15 @@
+---
+
+- name: Configuring MongoDb server
+  hosts: mongodb 
+  become: yes
+  tasks:
+    - name: Copy mongodb repo
+      copy:
+        src: mongodb.repo
+        dest: /etc/yum.repos.d/mongo.repo
+
+    - name: Install Mongodb package
+      pacakage:
+         name: mongodb-org
+         state: installed
