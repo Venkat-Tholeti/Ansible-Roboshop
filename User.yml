@@ -22,4 +22,42 @@
         home: /app
         shell: /sbin/nologin
 
+    - name: Create APP Directory
+      file:
+       path: /app
+
+    - name: Download the Application Code
+      get_url:
+       url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+       path: /tmp/user.zip
+
+    - name: Unzipping The Code
+      unarchive:
+         src: /tmp/user.zip
+         dest: /app
+         remote_src: yes
+
+    - name: Dependencies Install
+      npm:
+        path: /app
+      
+    - name: Creating Systemctl Service For User
+      copy:
+        src: user.service
+        dest: /etc/systemd/system/user.service
+
+    - name: Daemon Reload
+      systemd_service:
+        daemon_reload: true
+
+    - name: Enabling & Restarting The Service
+      service:
+        name: user
+        status: started
+        enabled: yes
+      
+       
+        
+    
+
       
