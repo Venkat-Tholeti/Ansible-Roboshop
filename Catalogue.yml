@@ -1,0 +1,39 @@
+---
+
+- name: Configuring Catalogue Server
+  hosts: catalogue
+  become: yes
+  tasks:
+    - name: Disabling Default Nodejs
+      command: dnf module disable nodejs -y
+
+    - name: Enabling  Nodejs:20
+      command: dnf module enable nodejs:20 -y
+
+    - name: Installing Nodejs
+      package:
+        name: nodejs
+        state: present
+
+    - name: Creating System User
+      user:
+        name: roboshop
+        shell: /sbin/nologin
+        system: true
+        home: /app
+
+    - name: Creating App Directory
+      file:
+        path: /app
+        state: directory 
+ 
+    - name: Download The Catalogue Code
+      get_url: 
+        url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+        dest: /tmp/catalogue.zip
+
+    - name: Unzipping The Catalogue Code
+      unarchive:
+       src: /tmp/catalogue.zip
+       dest: /app 
+
