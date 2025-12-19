@@ -36,4 +36,5 @@
       unarchive:
        src: /tmp/catalogue.zip
        dest: /app 
+       remote_src: yes # This means file already exist in catalogue server
 
