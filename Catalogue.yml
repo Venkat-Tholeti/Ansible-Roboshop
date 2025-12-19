@@ -38,3 +38,28 @@
        dest: /app 
        remote_src: yes # This means file already exist in catalogue server
 
+    - name: Download The Dependencies
+      npm:
+       path: /app
+
+    - name: Copy Catalogue service
+      copy:
+        src: catalogue.service
+        dest: /etc/systemd/system/catalogue.service
+
+    - name: Daemon Reload
+      systemd_service:
+        daemon_reload: yes 
+
+    - name: Enabling And Starting catalogue service
+      servcie:
+         name: catalogue
+         state: started
+         enable: yes
+
+      
+
+
+       
+       
+
