@@ -57,6 +57,22 @@
          state: started
          enable: yes
 
+   
+    - name: Copy Mongodb Repo
+      copy:
+        src: mongodb.repo
+        dest: /etc/yum.repos.d/mongo.repo
+
+    - name: Install MongoDb Client
+      packages:
+        name: mongodb-mongosh
+        state: present
+      
+    - name: Loading Products Data 
+      mongodb_shell:
+        file: /app/db/master-data.js
+        idempotent: yes
+        login_host: mongodb.devopsaws.store
       
 
 
