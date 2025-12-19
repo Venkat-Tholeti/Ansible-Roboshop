@@ -69,7 +69,7 @@
         state: present
       
     - name: Loading Products Data 
-      mongodb_shell:
+      mongodb.mongodb_shell:
         file: /app/db/master-data.js
         idempotent: yes
         login_host: mongodb.devopsaws.store
