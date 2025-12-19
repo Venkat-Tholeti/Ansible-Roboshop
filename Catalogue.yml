@@ -52,7 +52,7 @@
         daemon_reload: yes 
 
     - name: Enabling And Starting catalogue service
-      servcie:
+      service:
          name: catalogue
          state: started
          enable: yes
