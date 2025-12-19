@@ -55,7 +55,7 @@
       service:
          name: catalogue
          state: started
-         enable: yes
+         enabled: yes
 
    
     - name: Copy Mongodb Repo
