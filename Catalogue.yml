@@ -64,7 +64,7 @@
         dest: /etc/yum.repos.d/mongo.repo
 
     - name: Install MongoDb Client
-      packages:
+      package:
         name: mongodb-mongosh
         state: present
       
