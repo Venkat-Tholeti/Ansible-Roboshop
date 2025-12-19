@@ -1,0 +1,25 @@
+---
+
+- name: Configuring User Server
+  hosts: user
+  become: yes
+  tasks:
+    - name: Disable Default Nodejs
+      command: dnf module disable nodejs -y
+
+    - name: Enable Nodejs Version:20
+      command: dnf module enable nodejs:20 -y
+
+    - name: Install Nodejs
+      package:
+         name: nodejs
+         state: present
+
+    - name: Create System user
+      user:
+        name: roboshop
+        system: true
+        home: /app
+        shell: /sbin/nologin
+
+      
