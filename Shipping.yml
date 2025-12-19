@@ -1,0 +1,101 @@
+- name: Configuring Shipping Component
+  hosts: Shipping
+  become: yes
+  tasks: 
+   - name: Install Maven & MYSQL CLIENT
+     package:
+      name: "{{ item }}"
+      status: present
+     loop:
+     - maven 
+     - mysql
+
+   - name: Creating System User
+     user:
+      name: roboshop
+      home: /app
+      system: true
+      shell: /sbin/nologin
+
+   -  name: Creating app Directory
+      file:
+       path: /app
+       status: directory
+
+   
+   - name: Download The shipping Code
+     get_url: 
+        url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+        dest: /tmp/shipping.zip
+
+   - name: Unzipping The Shipping Code
+     unarchive:
+       src: /tmp/shipping.zip
+       dest: /app 
+       remote_src: yes
+
+   - name: Download The Dependencies
+     command: mvn clean package 
+     args: 
+      chdir: /app
+
+   - name: Rename The JAR file
+     command: mv target/shipping-1.0.jar shipping.jar 
+     args:
+       chdir: /app
+
+
+   - name: Copy Shipping service
+     copy:
+        src: shipping.service
+        dest: /etc/systemd/system/shipping.service
+
+   - name: Daemon Reload
+     systemd_service:
+        daemon_reload: true
+
+   - name: Enabling And Starting Shipping service
+     service:
+         name: shipping
+         state: started
+         enabled: yes
+
+   - name: Installing MYSQL Client
+     package:
+         name: mysql
+         state: present
+  
+   - name: Install PYMYSQL & Cryptography DEPENDENCY  # THIS DEPENDENCY IS USED TO AVOID FAILURE WHEN LOGGING IN AND CONNECTING TO MYSQL USING APP SERVER
+     pip:
+      name: "{{ item }}"
+      executable: pip3.9
+     loop:
+     - cryptography 
+     - PyMySQL 
+
+  #  - name: Connect To Mysql Using App User
+  #    community.mysql.mysql_info:
+  #      login_user: shipping
+  #      login_password: RoboShop@1
+  #      login_host: mysql.devopsaws.store
+  #      login_db: cities
+
+   - name: Import data
+     mysql.mysql_db:
+      login_user: shipping
+      login_password: RoboShop@1
+      login_host: mysql.devopsaws.store
+      state: import
+      target: "{{ item }}"
+     loop:
+      - /app/db/schema.sql
+      - /app/db/app-user.sql
+      - /app/db/master-data.sql
+
+   - name: Restart Shipping service
+     service:
+       name: shipping
+       status: restarted
+
+
+    
