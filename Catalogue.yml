@@ -49,7 +49,7 @@
 
     - name: Daemon Reload
       systemd_service:
-        daemon_reload: yes 
+        daemon_reload: enabled
 
     - name: Enabling And Starting catalogue service
       service:
