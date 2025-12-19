@@ -25,11 +25,12 @@
     - name: Create APP Directory
       file:
        path: /app
+       state: directory
 
     - name: Download the Application Code
       get_url:
        url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
-       path: /tmp/user.zip
+       dest: /tmp/user.zip
 
     - name: Unzipping The Code
       unarchive:
