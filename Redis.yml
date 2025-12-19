@@ -1,6 +1,6 @@
 ---
 - name: Configuring Redis 
-  hosts: Redis
+  hosts: redis
   become: yes
   tasks:
     - name: Disable Redis default Version
