@@ -5,8 +5,8 @@
 #- import_playbook: User.yml
 #- import_playbook: Cart.yml
 #- import_playbook: Mysql.yml
-- import_playbook: Shipping.yml
-- import_playbook: Rabbitmq.yml
+#- import_playbook: Shipping.yml
+#- import_playbook: Rabbitmq.yml
 - import_playbook: Payment.yml
 - import_playbook: Frontend.yml
 
