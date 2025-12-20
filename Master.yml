@@ -1,6 +1,4 @@
 ----
-# USING THIS WE CAN RUN ALL THE YAML FILES AT ONCE, WE SHOULD USE IMPORT_PLAYBOOK COMMAND FOR THIS
-
 - import_playbook: Mongodb.yml
 - import_playbook: Catalogue.yml
 - import_playbook: Redis.yml
@@ -11,6 +9,8 @@
 - import_playbook: Rabbitmq.yml
 - import_playbook: Payment.yml
 - import_playbook: Frontend.yml
+
+# USING THIS WE CAN RUN ALL THE YAML FILES AT ONCE, WE SHOULD USE IMPORT_PLAYBOOK COMMAND FOR THIS
 
 # RUN ansible-playbook -i inventory.ini Master.yml
 
