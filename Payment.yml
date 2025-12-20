@@ -48,10 +48,10 @@
       src: payment.service
       dest: /etc/systemd/system/payment.service
 
-   - name: Install Payment
-     package:
-      name: payment
-      state: present
+   - name: daemon reload
+     systemd_service:
+      daemon_reload: true
+
 
    - name: Enable & Start service
      service:
