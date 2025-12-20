@@ -54,7 +54,7 @@
     - name: Enabling & Restarting The Service
       service:
         name: user
-        status: started
+        state: started
         enabled: yes
       
        
