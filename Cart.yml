@@ -30,7 +30,7 @@
     - name: Downloading The Code Content
       get_url:
           url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
-          path: /tmp/cart.zip
+          dest: /tmp/cart.zip
 
     - name: Unzipping The Code
       unarchive:
