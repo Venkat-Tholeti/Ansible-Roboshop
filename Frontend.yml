@@ -1,7 +1,7 @@
 ---
 
 - name: Configure Frontend
-  host: frontend
+  hosts: frontend
   become: yes
   tasks:
     - name: Disable Default Nginx
