@@ -1,7 +1,7 @@
 ---
 
 - name: Configure Mysql Component
-  hosts: mysql 
+  hosts: mysql
   become: yes
   tasks:
     - name: Install Mysql Server
