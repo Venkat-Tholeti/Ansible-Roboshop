@@ -13,7 +13,7 @@
     - name: Install Nodejs
       package:
        name: nodejs
-       status: present
+       state: present
 
     - name: Creating System User
       user:
@@ -54,7 +54,7 @@
     - name: Enabing & Starting The Service
       service:
         name: cart
-        status: started
+        state: started
         enabled: yes
 
     

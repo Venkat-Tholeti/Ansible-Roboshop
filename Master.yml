@@ -2,7 +2,7 @@
 #- import_playbook: Mongodb.yml
 #- import_playbook: Catalogue.yml
 #- import_playbook: Redis.yml
-- import_playbook: User.yml
+#- import_playbook: User.yml
 - import_playbook: Cart.yml
 - import_playbook: Mysql.yml
 - import_playbook: Shipping.yml
