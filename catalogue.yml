@@ -9,7 +9,7 @@
 
       - name: Enable nodejs:20
         command: # there is no module for enabling specific version so we are going with command module
-            dnf module enable nodejs -y
+            dnf module enable nodejs:20 -y
 
       - name: Install nodejs
         package:
@@ -38,3 +38,6 @@
            src: /tmp/catalogue.zip
            dest: /app
           
+      - name: Npm Install
+        package:
+            name: npm 
