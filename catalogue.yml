@@ -38,7 +38,29 @@
            src: /tmp/catalogue.zip
            dest: /app
            remote_src: yes
+     # remote_src :no (default): file is copied from controller then extracted
+     # remote_src:yes : file already exists on remote host
           
-      - name: Npm Install
-        command:
-             npm install 
+      - name: Install Dependencies
+        community.general.npm:
+             path: /app
+
+      - name: Copy catalogue service to system directory
+        copy:
+          src: catalogue.service
+          dest: /etc/systemd/system/catalogue.service
+        notify: Reload systemd
+
+      - name: Start & Enable Catalogue Service
+        service:
+            name: catalogue
+            state: started
+            enabled: yes
+
+
+    handlers:
+        - name: Reload systemd
+          systemd:
+            daemon_reload: true
+
+          
