@@ -17,7 +17,7 @@
           state: present
 
       - name: Creating System User
-        cart:
+        user:
            name: roboshop
            shell: /sbin/nologin
            system: true #for system cart
