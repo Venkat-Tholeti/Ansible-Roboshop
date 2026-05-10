@@ -37,7 +37,8 @@
         unarchive:
            src: /tmp/catalogue.zip
            dest: /app
+           remote_src: yes
           
       - name: Npm Install
-        package:
-            name: npm 
+        command:
+             npm install 
