@@ -12,7 +12,7 @@
             dnf module enable nodejs -y
 
       - name: Install nodejs
-        pacakage:
+        package:
           name: nodejs
           state: present
 
