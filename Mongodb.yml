@@ -31,5 +31,5 @@
 
       - name: Restart MongoDB
         service:
-        name: mongod
-        state: restarted
+          name: mongod
+          state: restarted
