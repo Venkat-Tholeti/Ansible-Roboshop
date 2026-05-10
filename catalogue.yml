@@ -57,6 +57,15 @@
             state: started
             enabled: yes
 
+      - name: Copy mongo repo
+        copy:
+          src: mongo.repo
+          dest: /etc/yum.repos.d/mongo.repo
+
+      - name: Install MongoDb client
+        command:
+            dnf install mongodb-mongosh -y
+
 
     handlers:
         - name: Reload systemd
