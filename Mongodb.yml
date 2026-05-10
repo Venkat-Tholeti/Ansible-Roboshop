@@ -18,3 +18,18 @@
              name: mongod
              state: started
              enabled: yes
+
+       - name: Allow remote connections
+         replace:
+             path: /etc/mongod.conf
+             regexp: '127.0.0.1' # To be replaced  
+             replace: '0.0.0.0'  # To be replaced with
+         notify: Restart MongoDb # notifying handlers to restart rather than writing the restart block again
+
+         
+    handlers:
+
+      - name: Restart MongoDB
+        service:
+        name: mongod
+        state: restarted
