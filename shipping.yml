@@ -4,14 +4,99 @@
    hosts: shipping 
    become: yes
    tasks:
-      - name: Install Maven
+      - name: Install Maven,PyMySQL,cryptography & mysql-client
         package:
-           name: Maven
-           state: started
+           name: "{{ item }}"
+           state: present
+        loop:
+          - maven
+          - python3-PyMySQL
+          - python3-cryptography
+          - mysql
 
       - name: System User Creation
         user:
           name: roboshop
           home: /app
           system: true
-          
+          shell: /sbin/nologin
+
+      - name: Create App Directory
+        file: 
+          path: /app
+          state: directory
+
+      - name: Download shipping code
+        get_url:
+           url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+           dest: /tmp/shipping.zip
+
+      - name: Extract shipping code
+        unarchive:
+           src: /tmp/shipping.zip
+           dest: /app
+           remote_src: yes
+     # remote_src :no (default): file is copied from controller then extracted
+     # remote_src:yes : file already exists on remote host
+
+      - name: Install maven Dependencies
+        command:
+          mvn clean package
+        args:
+          chdir: /app # To move into directory we use args
+
+
+      - name: Rename Jar file
+        command: 
+          mv target/shipping-1.0.jar shipping.jar
+        args:
+          chdir: /app
+
+      - name: Setup Systemd Service
+        copy:
+          src: shipping.service
+          dest: /etc/systemd/system/shipping.service
+        notify: Reload systemd
+
+      - name: Enable & Start shipping Service
+        service:
+           name: shipping
+           state: started
+           enabled: yes
+        
+        
+      # - name: connect to mysql using app user
+      #   community.mysql.mysql_info:
+      #     login_user: shipping
+      #     login_password: RoboShop@1
+      #     login_host: mysql.devopsaws.store
+      #     login_db: cities
+
+       
+      - name: import data
+        tags:
+        - import
+        community.mysql.mysql_db:
+          name: all
+          login_user: root
+          login_password: RoboShop@1
+          login_host: mysql.devopsaws.store
+          state: import
+          target: "{{ item }}"
+        loop:
+        - /app/db/schema.sql
+        - /app/db/app-user.sql
+        - /app/db/master-data.sql
+        notify: Restart Shipping
+         
+  
+
+   handlers:
+     - name: Reload systemd
+       systemd:
+            daemon_reload: true
+
+     - name: Restart Shipping
+       service:
+         name: shipping
+         state: restarted
