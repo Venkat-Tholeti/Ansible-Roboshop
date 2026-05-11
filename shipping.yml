@@ -1,0 +1,17 @@
+---
+
+ - name: Shipping Component 
+   hosts: shipping 
+   become: yes
+   tasks:
+      - name: Install Maven
+        package:
+           name: Maven
+           state: started
+
+      - name: System User Creation
+        user:
+          name: roboshop
+          home: /app
+          system: true
+          
